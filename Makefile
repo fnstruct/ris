@@ -1,15 +1,19 @@
+ifneq (,$(wildcard .git))
+VERSION ?= $(shell git describe --tags)
+endif
+
 SRC := main.go
 BIN := ris
 
 PREFIX ?= /usr/local
 BINDIR ?= $(PREFIX)/bin
 
-GO_LDFLAGS ?= -s -w
+RISFLAGS ?= -s -w -X main.Version=\"$(VERSION)\"
 
 all: $(BIN)
 
 $(BIN): $(SRC)
-	go build -ldflags "$(GO_LDFLAGS)" -trimpath -o $@
+	go build -ldflags "$(RISFLAGS)" -trimpath -o $@
 
 .PHONY: install
 
