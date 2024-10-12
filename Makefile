@@ -10,7 +10,7 @@ BIN := ris
 PREFIX ?= /usr/local
 BINDIR ?= $(PREFIX)/bin
 
-RISFLAGS ?= -s -w -X main.Version=\"$(VERSION)\"
+RISFLAGS ?= -s -w -X main.Version="$(VERSION)"
 
 all: $(BIN)
 
