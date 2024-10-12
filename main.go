@@ -16,6 +16,7 @@ type Options struct {
 	Name     string `usage:"Specify which files to rename"`
 	Index    int    `usage:"Provide custom index" default:"1"`
 	Version  bool   `usage:"Print installed version"`
+	Verbose  bool   `usage:"Print output when renaming"`
 }
 
 var (
@@ -59,6 +60,10 @@ func main() {
 		err = os.Rename(files[i], newfile)
 		if err != nil {
 			panic(err)
+		}
+
+		if opts.Verbose {
+			fmt.Println(files[i], "=>", newfile)
 		}
 	}
 }
