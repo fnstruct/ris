@@ -17,6 +17,7 @@ type Options struct {
 	Index    int    `usage:"Provide custom index" default:"1"`
 	Version  bool   `usage:"Print installed version"`
 	Verbose  bool   `usage:"Print output when renaming"`
+	Zfill    int    `usage:"Provide custom zfill" default:"4"`
 }
 
 var (
@@ -57,7 +58,7 @@ func main() {
 	}
 
 	for i := 0; i < len(files); i++ {
-		index := fmt.Sprintf("%0*d", 4, i + opts.Index)
+		index := fmt.Sprintf("%0*d", opts.Zfill, i + opts.Index)
 		filename := fmt.Sprintf("%s.%s", index, opts.Name)
 
 		newfile := filepath.Join(args[0], filename)
