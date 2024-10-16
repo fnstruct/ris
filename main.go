@@ -8,6 +8,7 @@ import (
 	"flag"
 	"fmt"
 	"path/filepath"
+	"strings"
 
 	"github.com/itzg/go-flagsfiller"
 )
@@ -18,6 +19,7 @@ type Options struct {
 	Version  bool   `usage:"Print installed version"`
 	Verbose  bool   `usage:"Print output when renaming"`
 	Zfill    int    `usage:"Provide custom zfill" default:"4"`
+	KeepName bool   `usage:"Keep original filename"`
 }
 
 var (
@@ -59,7 +61,15 @@ func main() {
 
 	for i := 0; i < len(files); i++ {
 		index := fmt.Sprintf("%0*d", opts.Zfill, i + opts.Index)
-		filename := fmt.Sprintf("%s.%s", index, opts.Name)
+		base  := strings.TrimSuffix(filepath.Base(files[i]), opts.Name)
+
+		var filename string
+
+		if opts.KeepName {
+			filename = fmt.Sprintf("%s-%s%s", index, base, opts.Name)
+		} else {
+			filename = fmt.Sprintf("%s.%s", index, opts.Name)
+		}
 
 		newfile := filepath.Join(args[0], filename)
 		_, err := os.Stat(newfile)
