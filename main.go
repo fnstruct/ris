@@ -73,6 +73,10 @@ func main() {
 
 		newfile := filepath.Join(args[0], filename)
 		_, err := os.Stat(newfile)
+		if err == nil {
+			// File already exists, not renamed
+			continue
+		}
 
 		err = os.Rename(files[i], newfile)
 		if err != nil {
