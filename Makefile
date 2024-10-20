@@ -1,7 +1,7 @@
 ifneq (,$(wildcard .git))
 VERSION ?= $(shell git describe --tags)
 else
-VERSION ?= 1.1.0
+VERSION ?= 1.2.0
 endif
 
 SRC := main.go
