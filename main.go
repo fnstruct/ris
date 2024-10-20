@@ -15,6 +15,7 @@ import (
 
 type Options struct {
 	Name     string `usage:"Specify which files to rename"`
+	Flavor   string `usage:"Use preferred extension when renaming"`
 	Index    int    `usage:"Provide custom index" default:"1"`
 	Version  bool   `usage:"Print installed version"`
 	Verbose  bool   `usage:"Print output when renaming"`
@@ -51,6 +52,11 @@ func main() {
 		os.Exit(0)
 	}
 
+	// Use default extension when another isn't preferred
+	if opts.Flavor == "" {
+		opts.Flavor = opts.Name
+	}
+
 	glob := fmt.Sprintf("*.%s", opts.Name)
 	path := filepath.Join(args[0], glob)
 
@@ -66,9 +72,9 @@ func main() {
 		var filename string
 
 		if opts.KeepName {
-			filename = fmt.Sprintf("%s-%s%s", index, base, opts.Name)
+			filename = fmt.Sprintf("%s-%s%s", index, base, opts.Flavor)
 		} else {
-			filename = fmt.Sprintf("%s.%s", index, opts.Name)
+			filename = fmt.Sprintf("%s.%s", index, opts.Flavor)
 		}
 
 		newfile := filepath.Join(args[0], filename)
